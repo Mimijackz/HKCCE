@@ -1,0 +1,92 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title> A cool place to test out stuff </title>
+</head>
+<body>
+
+    <button id="imageSelection" onclick="toggle(document.querySelector('#imageSelectBG'));"></button>
+    <div id="imageSelectBG" class="centered" onclick="toggle(document.querySelector('#imageSelectBG'));" style="display: none">
+        <div id="imageSelectMenu" class="centered">
+            <button id="option1" class="imageOptionSelected imageOption" style="background-image: url('KnightTextures/KnightLogo.png')" onclick="changeImage(''); removeAllSelected(1);"></button>
+            <button id="option2" class="imageOption" style="background-image: url('KnightTextures/Hollow/KnightLogo.png')" onclick="changeImage('/Hollow'); removeAllSelected(2);"></button>
+            <button id="option3" class="imageOption" style="background-image: url('KnightTextures/Infected/KnightLogo.png')" onclick="changeImage('/Infected'); removeAllSelected(3);"></button>
+            <button id="option4" class="imageOption" style="background-image: url('KnightTextures/KnightLogo.png')" onclick="changeImage(''); removeAllSelected(4);"></button>
+            <button id="option5" class="imageOption" style="background-image: url('KnightTextures/KnightLogo.png')" onclick="changeImage(''); removeAllSelected(5);"></button>
+            <button id="option6" class="imageOption" style="background-image: url('KnightTextures/KnightLogo.png')" onclick="changeImage(''); removeAllSelected(6);"></button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var imageSelector = document.querySelector("#imageSelection");
+
+        function toggle(toggledElement) {
+            if (toggledElement.style.display == "none")
+                toggledElement.style.display = "block";
+            else
+                toggledElement.style.display = "none";
+        }
+        function changeImage(newImage) {
+            imageSelector.style.backgroundImage = "url(KnightTextures" + newImage + "/KnightLogo.png)";
+        }
+        function removeAllSelected(newSelected) {
+            document.querySelector("#option1").classList.remove("imageOptionSelected");
+            document.querySelector("#option2").classList.remove("imageOptionSelected");
+            document.querySelector("#option3").classList.remove("imageOptionSelected");
+            document.querySelector("#option4").classList.remove("imageOptionSelected");
+            document.querySelector("#option5").classList.remove("imageOptionSelected");
+            document.querySelector("#option6").classList.remove("imageOptionSelected");
+            document.querySelector("#option" + newSelected).classList.add("imageOptionSelected");
+        }
+    </script>
+    <style>
+        .ui-state-default .ui-icon.custom-icon {
+            background-image: url("KnightTextures/KnightLogo.png");
+        }
+
+        #imageSelection {
+            width: 180px;
+            height: 200px;
+            font-size: 180px;
+            background-image: url("KnightTextures/KnightLogo.png");
+            background-size: auto 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #imageSelectMenu {
+            background-color: rgb(69, 69, 69);
+            width: 770px;
+            height: 490px;
+        }
+
+        #imageSelectBG{
+            z-index: 9;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .imageOption{
+            margin-left: 12px;
+            margin-right: 10px;
+            width: 30%;
+            height: 230px;
+            background-size: auto 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .imageOptionSelected{
+            border-width: 10px;
+            transform: translateY(-7px);
+        }
+    </style>
+</body>
+</html>

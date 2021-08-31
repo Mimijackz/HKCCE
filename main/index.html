@@ -1,0 +1,539 @@
+<!DOCTYPE HTML>
+<div id="header">
+    <input type="button" value="Home" class="titleButton" onclick="window.location.href = '..'" id="unchosen"/>
+    <input type="button" value="Editor" class="titleButton" id="chosen"/>
+</div>
+<canvas id="canvasCombine" crossorigin="anonymous"></canvas>
+<div class="main" id="main">
+    <div class="imagePreview" id="preview">
+        <img class="img" id="testImage" src="../KnightTextures/KnightPreview.png" />
+    </div>
+    <div class="editor" id="colorEditor">
+        <input type="button" id="default" onclick="changeColor('#4e5469')" value="Reset color to default" />
+        <input type="color" id="colorPicker" onchange="changeColor(document.querySelector('#colorPicker').value);" />
+        <button id="imageSelection" onclick="toggle(document.querySelector('#imageSelectBG'));"></button>
+        <button type="submit" class="download" id="download" onclick="downloadAll();" value="Download skin"> Download skin<div id="downloadingGIFParent"><div id="downloadingGIF" /></div>
+    </div></button>
+        <input type="button" class="download" onclick="pushColor(document.querySelector('#colorPicker').value);" value="Save skin" />
+        <div id="saved">
+            <div class="savedColor" style="display: none;">
+                <img class="savedEditorImage" src="../KnightTextures/KnightLogo.png" />
+                <div class="savedEditor"><input type="color" id="savedColorShow" /> </div>
+                <div id="savedText" class="savedEditor">
+                    <input type="text" class="savedName" id="savedName" value="Saved color" />
+                    <input type="button" class="savedButton" id="savedButton" value="Get skin" onclick="" />
+                </div>
+                <input type="button" class="savedRemoveButton" value="X" />
+            </div>
+        </div>
+    </div>
+<div id="imageSelectBG" class="centered" onclick="toggle(document.querySelector('#imageSelectBG'));" style="display: none">
+    <div id="imageSelectMenu" class="centered">
+        <button id="option1" class="imageOptionSelected imageOption" style="background-image: url('../KnightTextures/KnightLogo.png')" onclick="changeImage(''); removeAllSelected(1);"></button>
+        <button id="option2" class="imageOption" style="background-image: url('../KnightTextures/Hollow/KnightLogo.png')" onclick="changeImage('/Hollow'); removeAllSelected(2);"></button>
+        <button id="option3" class="imageOption" style="background-image: url('../KnightTextures/Infected/KnightLogo.png')" onclick="changeImage('/Infected'); removeAllSelected(3);"></button>
+        <button id="option4" class="imageOption" style="background-image: url('../KnightTextures/Uninfected/KnightLogo.png')" onclick="changeImage('/Uninfected'); removeAllSelected(4);"></button>
+        <button id="option5" class="imageOption" style="background-image: url('../KnightTextures/OwO/KnightLogo.png')" onclick="changeImage('/OwO'); removeAllSelected(5);"></button>
+        <button id="option6" class="imageOption" style="background-image: url('../KnightTextures/KnightLogo.png'); display: none;" onclick="changeImage(''); removeAllSelected(6);"></button>
+    </div>
+</div>
+
+</div>
+<style>
+    @font-face {
+        font-family: mainFont;
+        src: url(../Trajan Pro Regular.ttf);
+    }
+
+    #header {
+        margin-top: -20px;
+        height: 100px;
+        text-align: center;
+        background: #424242;
+        color: white;
+        font-size: 30px;
+        width: 100%;
+    }
+
+    .titleButton {
+        width: 40%;
+        height: 100%;
+        transform: translateX(0%);
+        font-size: 35px;
+    }
+
+    #chosen {
+        background-color: #404040;
+    }
+
+    #unchosen {
+        background-color: #787878;
+    }
+
+    body {
+        background: linear-gradient(rgba(39, 47, 63, 0.5), rgba(39, 47, 63, 0.5)), url("../Backgrounds/Background.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        backdrop-filter: blur(2px);
+        background-attachment: fixed;
+        font-family: mainFont;
+    }
+
+    .main {
+        margin: auto;
+        width: 1080px;
+        background-color: rgba(128, 128, 128, 0.8);
+        height: 700px;
+        /*min-height: 100%;
+        height: auto !important;
+        height: 100%;*/
+    }
+
+    #preview {
+        width: 272px;
+        height: 500px;
+        display: inline-block;
+        margin: auto;
+        background-image: url("../Backgrounds/deepnestBG.png");
+        background-repeat: no-repeat;
+        background-size: 1000px;
+        background-position-y: -420px;
+        background-position-x: -120px;
+        border-style: double;
+        border-width: 50px;
+        margin-left: 64px;
+        transform: translateY(-220px);
+    }
+
+    #testImage {
+        width: 100%;
+        height: auto;
+    }
+
+    #canvasCombine {
+        width: 74px;
+        height: 136px;
+        display: none;
+    }
+
+    #colorEditor {
+        display: inline-block;
+        width: 590px;
+        margin-top: 10px;
+        vertical-align: 150px;
+    }
+
+    #colorPicker {
+        width: 400px;
+        height: 200px;
+        font-family: mainFont;
+    }
+
+    #default {
+        width: 360px;
+        height: 66px;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 35px;
+        font-family: mainFont;
+    }
+
+    .download {
+        width: 190px;
+        height: 60px;
+        display: inline-block;
+        margin-left: 5px;
+        font-family: mainFont;
+        font-size: 20px;
+    }
+
+    #saved {
+        margin-top: 10px;
+        overflow-y: scroll;
+        height: 300px;
+        width: 100%;
+        background-color: rgba(100, 100, 100, 0.3);
+    }
+
+    .savedColor {
+        width: 100%;
+        height: 33%;
+        background-color: darkgray;
+        border-bottom: solid 1px rgb(100, 100, 100);
+        border-top: solid 2px rgb(100, 100, 100);
+    }
+
+    #savedColorShow {
+        width: 100%;
+        height: 80%;
+        margin-top: 10px;
+    }
+
+    #savedText {
+        width: 40%;
+        height: 100%;
+        transform: translateY(-10px);
+        font-family: mainFont;
+        font-size: 20px;
+    }
+
+    .savedName {
+        width: 100%;
+        height: 40%;
+        text-align: center;
+        background: none;
+        font-family: mainFont;
+        font-size: 20px;
+    }
+
+    .savedButton {
+        width: 100%;
+        height: 40%;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.5);
+        font-family: mainFont;
+        font-size: 20px;
+    }
+
+    .savedEditor {
+        display: inline-block;
+        width: 30%;
+        height: 100%;
+    }
+
+    .savedRemoveButton {
+        background: none;
+        border: none;
+        width: 65px;
+        height: 65px;
+        font-family: sans-serif;
+        font-size: 70px;
+        margin-bottom: 0px;
+        transform: translateY(-10px);
+    }
+
+    #downloadingGIFParent {
+        width: 90%;
+        height: 20px;
+        display: none;
+        margin: auto;
+        background-color: dimgray;
+    }
+
+    #downloadingGIF {
+        height: 100%;
+        width: 100%;
+        background-image: url("../DownloadLoading.gif");
+        -webkit-mask-image: url(../square.svg);
+        mask-image: url(../square.svg);
+        -webkit-mask-size: 0%;
+        mask-size: 0%;
+        -webkit-mask-repeat: no-repeat;
+    }
+
+    #imageSelection {
+        width: 180px;
+        height: 200px;
+        font-size: 180px;
+        background-image: url("../KnightTextures/KnightLogo.png");
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        display: inline-block;
+    }
+
+    .centered {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #imageSelectMenu {
+        background-color: rgb(69, 69, 69);
+        width: 770px;
+        height: 490px;
+    }
+
+    #imageSelectBG {
+        z-index: 9;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .imageOption {
+        margin-left: 12px;
+        margin-right: 10px;
+        width: 30%;
+        height: 230px;
+        background-size: auto 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-top: 10px;
+        display: inline-block;
+    }
+
+    .imageOptionSelected {
+        border-width: 10px;
+        transform: translateY(-7px);
+    }
+
+    .savedEditorImage {
+        display: inline-block;
+        width: auto;
+        height: 80%;
+    }
+
+</style>
+<script src="../jszip.js"></script>
+<script src="../FileSaver.js"></script>
+<script>
+
+    var fs = new FileReader();
+    var imageSelector = document.querySelector("#imageSelection");
+    var HeadSelected = "";
+
+    function toggle(toggledElement) {
+        if (toggledElement.style.display == "none")
+            toggledElement.style.display = "block";
+        else
+            toggledElement.style.display = "none";
+    }
+    function changeImage(newImage) {
+        HeadSelected = newImage;
+        imageSelector.style.backgroundImage = "url(../KnightTextures" + newImage + "/KnightLogo.png)";
+        myStorage.setItem("standardHead", newImage);
+        combineImages("../KnightTextures" + newImage + "/KnightPreview.png", "../KnightTextures/KnightPreviewMask.png", true, function (data) {
+            document.getElementById("testImage").src = data;
+        });
+    }
+    function removeAllSelected(newSelected) {
+        document.querySelector("#option1").classList.remove("imageOptionSelected");
+        document.querySelector("#option2").classList.remove("imageOptionSelected");
+        document.querySelector("#option3").classList.remove("imageOptionSelected");
+        document.querySelector("#option4").classList.remove("imageOptionSelected");
+        document.querySelector("#option5").classList.remove("imageOptionSelected");
+        document.querySelector("#option6").classList.remove("imageOptionSelected");
+
+        document.querySelector("#option" + newSelected).classList.add("imageOptionSelected");
+    }
+    function doesFileExist(urlToFile, callback, getBody) {
+        if (getBody)
+            fetch(urlToFile, { method: "GET" }).then(response => response.text()).then(response => callback(response));
+        else
+            fetch(urlToFile, { method: "HEAD" }).then(response => callback(response));
+    }
+    var downloadFiles = ["Sprint", "Knight", "Birthplace", "Cloak", "DreamArrival", "Dreamnail", "Hornet", "Quirrel", "Shriek", "Unn", "Webbed", "Wings", "Icon"];
+    var myStorage = window.localStorage;
+    var color = "#4e5469";
+    var savedColors = [{ name: "default", color: "#4e5469", head: "" }];
+    var downloadIndex = 0;
+
+    if (myStorage.getItem("newCheck") == null) {
+        console.log("Welcome!");
+        myStorage.setItem("standardColor", "#4e5469");
+        myStorage.setItem("standardHead", "");
+        myStorage.setItem("savedColorName", JSON.stringify(["default"]));
+        myStorage.setItem("savedColorColor", JSON.stringify(["#4e5469"]));
+        myStorage.setItem("savedColorHead", JSON.stringify([""]));
+
+        myStorage.setItem("newCheck", 1);
+
+    } else {
+        color = myStorage.getItem("standardColor");
+        HeadSelected = myStorage.getItem("standardHead");
+        imageSelector.style.backgroundImage = "url(../KnightTextures" + HeadSelected + "/KnightLogo.png)";
+        
+
+        //get saved colors
+        savedColors.splice(0, 1);
+        var colors = JSON.parse(myStorage.getItem("savedColorColor"));
+        var heads = JSON.parse(myStorage.getItem("savedColorHead"));
+        var names = JSON.parse(myStorage.getItem("savedColorName"));
+        names.forEach((item, index) => {
+            savedColors.push({ name: item, color: colors[index], head: heads[index] });
+        })
+    }
+    document.querySelector("#colorPicker").value = color;
+
+    function combineImages(mainPath, maskPath, url, callback) {
+        // get some variables in
+        var canvas = document.querySelector("#canvasCombine");
+        var context = canvas.getContext('2d');
+        //clear the canvas so you don't end up with 2 images on 1
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        var ImageSize = new Image();
+        ImageSize.src = mainPath;
+        ImageSize.onload = function () {
+            canvas.width = ImageSize.naturalWidth;
+            canvas.height = ImageSize.naturalHeight;
+
+            //clear the canvas so you don't end up with 2 images on 1
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            //now we fill it all in
+            context.fillStyle = color;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            //then we remove everything of the canvas unless it's inside the mask
+            context.globalCompositeOperation = "destination-in";
+            var imageObj1 = new Image();
+            imageObj1.src = maskPath;
+            imageObj1.onload = function () {
+                context.drawImage(imageObj1, 0, 0, canvas.width, canvas.height);
+
+                //finally, we add the sprite to the background
+                context.globalCompositeOperation = "destination-over";
+                var imageObj2 = new Image();
+                imageObj2.src = mainPath;
+                imageObj2.onload = function () {
+                    context.drawImage(imageObj2, 0, 0, canvas.width, canvas.height);
+                    if (url) {
+                        var data = canvas.toDataURL();
+                        callback(data);
+                    } else {
+                        canvas.toBlob(function (blob) {
+                            var data = blob;
+                            callback(data);
+                        })
+                    }
+                };
+            };
+        }
+
+
+    }
+    function changeColor(newcolor, callback = function () { }) {
+        color = newcolor;
+        myStorage.setItem("standardColor", color);
+        document.querySelector("#colorPicker").value = color;
+        combineImages("../KnightTextures" + HeadSelected + "/KnightPreview.png", "../KnightTextures/KnightPreviewMask.png", true, function (data) {
+            document.getElementById("testImage").src = data;
+            callback();
+        });
+    }
+    function downloadTest() {
+        var zip = new JSZip();
+        var imageContent;
+        combineImages("../KnightTextures" + HeadSelected + "/KnightPreview.png", "../KnightTextures/KnightPreviewMask.png", false, function (data) {
+            imageContent = data;
+            zip.file("Knight.png", imageContent);
+            zip.generateAsync({ type: "blob" }).then(function (blob) {
+                saveAs(blob, "Custom Cloak");
+            });
+        })
+    }
+    function downloadAll() {
+        document.querySelector("#downloadingGIFParent").style.display = "block";
+        document.querySelector("#downloadingGIF").style.display = "block";
+        document.querySelector("#download").disabled = true;
+        document.querySelector("#download").style.transform = "translateY(-10px)";
+        document.getElementById("saved").style.transform = "translateY(-10px)";
+        var zip = new JSZip();
+        downloadLoop(0, zip);
+    }
+    function downloadLoop(index, zip) {
+        doesFileExist("../KnightTextures" + HeadSelected + "/" + downloadFiles[index] + ".png", function one(status) {
+            if (!status.ok) console.clear();
+            combineImages("../KnightTextures" + (status.ok ? HeadSelected : "") + "/" + downloadFiles[index] + ".png", "../KnightTextures/" + downloadFiles[index] + "Mask.png", false, function (data) {
+                var imageContent = data;
+                zip.file(downloadFiles[index] + ".png", imageContent);
+                index++;
+                //document.getElementById("downloadingGIF").setAttribute("style", "-webkit-mask-size: " + index / downloadFiles.length + "%; mask-size: " + index / downloadFiles.length + "%;");
+                document.getElementById("downloadingGIF").style.webkitMaskSize = ((index - 1) / downloadFiles.length * 100) + "%";
+                document.getElementById("downloadingGIF").style.MaskSize = ((index - 1) / downloadFiles.length * 100) + "%";
+                if (downloadFiles.length > index) {
+                    downloadIndex = index;
+                    downloadLoop(downloadIndex, zip);
+                } else {
+                    doesFileExist("../KnightTextures" + HeadSelected + "/README.txt", function two(status) {
+                        zip.file("HeadReadme.txt", status);
+
+                    }, true);
+                    zip.generateAsync({ type: "blob" }).then(function (blob) {
+                        saveAs(blob, "Custom Cloak");
+                        document.querySelector("#downloadingGIFParent").style.display = "none";
+                        document.querySelector("#downloadingGIF").style.display = "none";
+                        document.querySelector("#download").disabled = false;
+                        document.querySelector("#download").style.transform = "translateY(0px)";
+                        document.getElementById("saved").style.transform = "translateY(0px)";
+                    });
+                }
+            });
+        }, false);
+    }
+    function getSavedColors(colors) {
+        var template = document.querySelector(".savedColor");
+        var oldcolors = document.querySelectorAll("#nontemplate");
+        oldcolors.forEach((item, index) => {
+            item.remove();
+        });
+        var parent = document.querySelector("#saved")
+        colors.forEach((item, index) => {
+            var clone = template.cloneNode(true);
+            parent.appendChild(clone);
+            clone.querySelector("#savedColorShow").value = item.color;
+            clone.children[2].children[0].value = item.name;
+            clone.children[2].children[0].id = index;
+            clone.style.display = "block";
+            clone.id = "nontemplate";
+            clone.children[0].src = "../KnightTextures" + item.head + "/KnightLogo.png";
+            clone.children[2].children[1].onclick = function two() {
+                changeColor(item.color, function () {
+                    changeImage(item.head);
+                });
+            }
+            clone.children[1].children[0].onchange = function three() {
+                changeColorColor(clone.children[1].children[0].value, index);
+            }
+            clone.children[2].children[0].onchange = function four() {
+                changeColorName(clone.children[2].children[0].value, index);
+            }
+            clone.children[3].onclick = function five() {
+                removeColor(index);
+            }
+        });
+    }
+    function pushColor(color) {
+        var colors = JSON.parse(myStorage.getItem("savedColorColor"));
+        var names = JSON.parse(myStorage.getItem("savedColorName"));
+        var heads = JSON.parse(myStorage.getItem("savedColorHead"));
+        colors.push(color);
+        names.push("Saved color");
+        heads.push(HeadSelected);
+        myStorage.setItem("savedColorColor", JSON.stringify(colors));
+        myStorage.setItem("savedColorName", JSON.stringify(names));
+        myStorage.setItem("savedColorHead", JSON.stringify(heads));
+        savedColors.push({ name: "Saved color", color: color, head: HeadSelected });
+        getSavedColors(savedColors);
+    }
+    function changeColorName(name, index) {
+        var names = JSON.parse(myStorage.getItem("savedColorName"));
+        names[index] = name;
+        myStorage.setItem("savedColorName", JSON.stringify(names));
+        savedColors[index].name = name;
+    }
+    function changeColorColor(color, index) {
+        var colors = JSON.parse(myStorage.getItem("savedColorColor"));
+        colors[index] = color;
+        myStorage.setItem("savedColorColor", JSON.stringify(colors));
+        savedColors[index].color = color;
+    }
+    function removeColor(index) {
+        var colors = JSON.parse(myStorage.getItem("savedColorColor"));
+        var names = JSON.parse(myStorage.getItem("savedColorName"));
+        var heads = JSON.parse(myStorage.getItem("savedColorHead"));
+        colors.splice(index, 1);
+        names.splice(index, 1);
+        heads.splice(index, 1);
+        myStorage.setItem("savedColorColor", JSON.stringify(colors));
+        myStorage.setItem("savedColorName", JSON.stringify(names));
+        myStorage.setItem("savedColorHead", JSON.stringify(heads));
+        savedColors.splice(index, 1);
+        getSavedColors(savedColors);
+    }
+    changeColor(color);
+    getSavedColors(savedColors);
+
+</script> 
