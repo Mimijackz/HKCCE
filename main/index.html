@@ -315,6 +315,7 @@
         document.querySelector("#option5").classList.remove("imageOptionSelected");
         document.querySelector("#option6").classList.remove("imageOptionSelected");
 
+        console.log(newSelected);
         document.querySelector("#option" + newSelected).classList.add("imageOptionSelected");
     }
     function doesFileExist(urlToFile, callback, getBody) {
@@ -344,7 +345,7 @@
         color = myStorage.getItem("standardColor");
         HeadSelected = myStorage.getItem("standardHead");
         imageSelector.style.backgroundImage = "url(../knightTextures" + HeadSelected + "/KnightLogo.png)";
-        removeAllSelected(HeadList.findIndex(item => item.id === item.head));
+        removeAllSelected(HeadList.findIndex(item => item.id === item.head) + 1);
 
 
         //get saved colors
@@ -483,7 +484,7 @@
             clone.children[2].children[1].onclick = function two() {
                 changeColor(item.color, function () {
                     changeImage(item.head);
-                    removeAllSelected(HeadList.findIndex(item => item.id === item.head));
+                    removeAllSelected(HeadList.findIndex(item => item.id === item.head) + 1);
                 });
             }
             clone.children[1].children[0].onchange = function three() {
