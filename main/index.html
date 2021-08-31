@@ -345,7 +345,7 @@
         color = myStorage.getItem("standardColor");
         HeadSelected = myStorage.getItem("standardHead");
         imageSelector.style.backgroundImage = "url(../knightTextures" + HeadSelected + "/KnightLogo.png)";
-        removeAllSelected(HeadList.findIndex(item => item.id === item.head) + 1);
+        removeAllSelected(HeadList.findIndex(item => item.id === HeadSelected) + 1);
 
 
         //get saved colors
