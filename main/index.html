@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
 <div id="header">
-    <input type="button" value="Home" class="titleButton" onclick="window.location.href = '..'" id="unchosen"/>
-    <input type="button" value="Editor" class="titleButton" id="chosen"/>
+    <input type="button" value="Home" class="titleButton" onclick="window.location.href = '..'" id="unchosen" />
+    <input type="button" value="Editor" class="titleButton" id="chosen" />
 </div>
 <canvas id="canvasCombine" crossorigin="anonymous"></canvas>
 <div class="main" id="main">
     <div class="imagePreview" id="preview">
-        <img class="img" id="testImage" src="../KnightTextures/KnightPreview.png" />
+        <img class="img" id="testImage" src="../knightTextures/KnightPreview.png" />
     </div>
     <div class="editor" id="colorEditor">
         <input type="button" id="default" onclick="changeColor('#4e5469')" value="Reset color to default" />
@@ -14,27 +14,27 @@
         <button id="imageSelection" onclick="toggle(document.querySelector('#imageSelectBG'));"></button>
         <button type="submit" class="download" id="download" onclick="downloadAll();" value="Download skin"> Download skin<div id="downloadingGIFParent"><div id="downloadingGIF" /></div>
     </div></button>
-        <input type="button" class="download" onclick="pushColor(document.querySelector('#colorPicker').value);" value="Save skin" />
-        <div id="saved">
-            <div class="savedColor" style="display: none;">
-                <img class="savedEditorImage" src="../KnightTextures/KnightLogo.png" />
-                <div class="savedEditor"><input type="color" id="savedColorShow" /> </div>
-                <div id="savedText" class="savedEditor">
-                    <input type="text" class="savedName" id="savedName" value="Saved color" />
-                    <input type="button" class="savedButton" id="savedButton" value="Get skin" onclick="" />
-                </div>
-                <input type="button" class="savedRemoveButton" value="X" />
+    <input type="button" class="download" onclick="pushColor(document.querySelector('#colorPicker').value);" value="Save skin" />
+    <div id="saved">
+        <div class="savedColor" style="display: none;">
+            <img class="savedEditorImage" src="../knightTextures/KnightLogo.png" />
+            <div class="savedEditor"><input type="color" id="savedColorShow" /> </div>
+            <div id="savedText" class="savedEditor">
+                <input type="text" class="savedName" id="savedName" value="Saved color" />
+                <input type="button" class="savedButton" id="savedButton" value="Get skin" onclick="" />
             </div>
+            <input type="button" class="savedRemoveButton" value="X" />
         </div>
     </div>
+</div>
 <div id="imageSelectBG" class="centered" onclick="toggle(document.querySelector('#imageSelectBG'));" style="display: none">
     <div id="imageSelectMenu" class="centered">
-        <button id="option1" class="imageOptionSelected imageOption" style="background-image: url('../KnightTextures/KnightLogo.png')" onclick="changeImage(''); removeAllSelected(1);"></button>
-        <button id="option2" class="imageOption" style="background-image: url('../KnightTextures/Hollow/KnightLogo.png')" onclick="changeImage('/Hollow'); removeAllSelected(2);"></button>
-        <button id="option3" class="imageOption" style="background-image: url('../KnightTextures/Infected/KnightLogo.png')" onclick="changeImage('/Infected'); removeAllSelected(3);"></button>
-        <button id="option4" class="imageOption" style="background-image: url('../KnightTextures/Uninfected/KnightLogo.png')" onclick="changeImage('/Uninfected'); removeAllSelected(4);"></button>
-        <button id="option5" class="imageOption" style="background-image: url('../KnightTextures/OwO/KnightLogo.png')" onclick="changeImage('/OwO'); removeAllSelected(5);"></button>
-        <button id="option6" class="imageOption" style="background-image: url('../KnightTextures/KnightLogo.png'); display: none;" onclick="changeImage(''); removeAllSelected(6);"></button>
+        <button id="option1" class="imageOptionSelected imageOption" style="background-image: url('../knightTextures/KnightLogo.png')" onclick="changeImage(''); removeAllSelected(1);"></button>
+        <button id="option2" class="imageOption" style="background-image: url('../knightTextures/hollow/KnightLogo.png')" onclick="changeImage('/hollow'); removeAllSelected(2);"></button>
+        <button id="option3" class="imageOption" style="background-image: url('../knightTextures/infected/KnightLogo.png')" onclick="changeImage('/infected'); removeAllSelected(3);"></button>
+        <button id="option4" class="imageOption" style="background-image: url('../knightTextures/uninfected/KnightLogo.png')" onclick="changeImage('uninfected'); removeAllSelected(4);"></button>
+        <button id="option5" class="imageOption" style="background-image: url('../knightTextures/owo/KnightLogo.png')" onclick="changeImage('/owo'); removeAllSelected(5);"></button>
+        <button id="option6" class="imageOption" style="background-image: url('../knightTextures/KnightLogo.png'); display: none;" onclick="changeImage(''); removeAllSelected(6);"></button>
     </div>
 </div>
 
@@ -71,7 +71,7 @@
     }
 
     body {
-        background: linear-gradient(rgba(39, 47, 63, 0.5), rgba(39, 47, 63, 0.5)), url("../Backgrounds/Background.png");
+        background: linear-gradient(rgba(39, 47, 63, 0.5), rgba(39, 47, 63, 0.5)), url("../background/Background.png");
         background-repeat: no-repeat;
         background-size: cover;
         backdrop-filter: blur(2px);
@@ -94,7 +94,7 @@
         height: 500px;
         display: inline-block;
         margin: auto;
-        background-image: url("../Backgrounds/deepnestBG.png");
+        background-image: url("../background/deepnestBG.png");
         background-repeat: no-repeat;
         background-size: 1000px;
         background-position-y: -420px;
@@ -235,7 +235,7 @@
         width: 180px;
         height: 200px;
         font-size: 180px;
-        background-image: url("../KnightTextures/KnightLogo.png");
+        background-image: url("../knightTextures/KnightLogo.png");
         background-size: auto 100%;
         background-repeat: no-repeat;
         background-position: center;
@@ -284,7 +284,6 @@
         width: auto;
         height: 80%;
     }
-
 </style>
 <script src="../jszip.js"></script>
 <script src="../FileSaver.js"></script>
@@ -302,9 +301,9 @@
     }
     function changeImage(newImage) {
         HeadSelected = newImage;
-        imageSelector.style.backgroundImage = "url(../KnightTextures" + newImage + "/KnightLogo.png)";
+        imageSelector.style.backgroundImage = "url(../knightTextures" + newImage + "/KnightLogo.png)";
         myStorage.setItem("standardHead", newImage);
-        combineImages("../KnightTextures" + newImage + "/KnightPreview.png", "../KnightTextures/KnightPreviewMask.png", true, function (data) {
+        combineImages("../knightTextures" + newImage + "/KnightPreview.png", "../knightTextures/KnightPreviewMask.png", true, function (data) {
             document.getElementById("testImage").src = data;
         });
     }
@@ -343,8 +342,8 @@
     } else {
         color = myStorage.getItem("standardColor");
         HeadSelected = myStorage.getItem("standardHead");
-        imageSelector.style.backgroundImage = "url(../KnightTextures" + HeadSelected + "/KnightLogo.png)";
-        
+        imageSelector.style.backgroundImage = "url(../knightTextures" + HeadSelected + "/KnightLogo.png)";
+
 
         //get saved colors
         savedColors.splice(0, 1);
@@ -408,7 +407,7 @@
         color = newcolor;
         myStorage.setItem("standardColor", color);
         document.querySelector("#colorPicker").value = color;
-        combineImages("../KnightTextures" + HeadSelected + "/KnightPreview.png", "../KnightTextures/KnightPreviewMask.png", true, function (data) {
+        combineImages("../knightTextures" + HeadSelected + "/KnightPreview.png", "../knightTextures/KnightPreviewMask.png", true, function (data) {
             document.getElementById("testImage").src = data;
             callback();
         });
@@ -416,7 +415,7 @@
     function downloadTest() {
         var zip = new JSZip();
         var imageContent;
-        combineImages("../KnightTextures" + HeadSelected + "/KnightPreview.png", "../KnightTextures/KnightPreviewMask.png", false, function (data) {
+        combineImages("../knightTextures" + HeadSelected + "/KnightPreview.png", "../knightTextures/KnightPreviewMask.png", false, function (data) {
             imageContent = data;
             zip.file("Knight.png", imageContent);
             zip.generateAsync({ type: "blob" }).then(function (blob) {
@@ -434,9 +433,9 @@
         downloadLoop(0, zip);
     }
     function downloadLoop(index, zip) {
-        doesFileExist("../KnightTextures" + HeadSelected + "/" + downloadFiles[index] + ".png", function one(status) {
+        doesFileExist("../knightTextures" + HeadSelected + "/" + downloadFiles[index] + ".png", function one(status) {
             if (!status.ok) console.clear();
-            combineImages("../KnightTextures" + (status.ok ? HeadSelected : "") + "/" + downloadFiles[index] + ".png", "../KnightTextures/" + downloadFiles[index] + "Mask.png", false, function (data) {
+            combineImages("../knightTextures" + (status.ok ? HeadSelected : "") + "/" + downloadFiles[index] + ".png", "../knightTextures/" + downloadFiles[index] + "Mask.png", false, function (data) {
                 var imageContent = data;
                 zip.file(downloadFiles[index] + ".png", imageContent);
                 index++;
@@ -447,7 +446,7 @@
                     downloadIndex = index;
                     downloadLoop(downloadIndex, zip);
                 } else {
-                    doesFileExist("../KnightTextures" + HeadSelected + "/README.txt", function two(status) {
+                    doesFileExist("../knightTextures" + HeadSelected + "/README.txt", function two(status) {
                         zip.file("HeadReadme.txt", status);
 
                     }, true);
@@ -478,7 +477,7 @@
             clone.children[2].children[0].id = index;
             clone.style.display = "block";
             clone.id = "nontemplate";
-            clone.children[0].src = "../KnightTextures" + item.head + "/KnightLogo.png";
+            clone.children[0].src = "../knightTextures" + item.head + "/KnightLogo.png";
             clone.children[2].children[1].onclick = function two() {
                 changeColor(item.color, function () {
                     changeImage(item.head);
