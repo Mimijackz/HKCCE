@@ -328,6 +328,7 @@
     var color = "#4e5469";
     var savedColors = [{ name: "default", color: "#4e5469", head: "" }];
     var downloadIndex = 0;
+    var HeadList = ["", "/hollow", "/infected", "/uninfected", "/owo"];
 
     if (myStorage.getItem("newCheck") == null) {
         console.log("Welcome!");
@@ -343,6 +344,7 @@
         color = myStorage.getItem("standardColor");
         HeadSelected = myStorage.getItem("standardHead");
         imageSelector.style.backgroundImage = "url(../knightTextures" + HeadSelected + "/KnightLogo.png)";
+        removeAllSelected(HeadList.findIndex(item => item.id === item.head));
 
 
         //get saved colors
@@ -481,6 +483,7 @@
             clone.children[2].children[1].onclick = function two() {
                 changeColor(item.color, function () {
                     changeImage(item.head);
+                    removeAllSelected(HeadList.findIndex(item => item.id === item.head));
                 });
             }
             clone.children[1].children[0].onchange = function three() {
