@@ -484,7 +484,7 @@
             clone.children[2].children[1].onclick = function two() {
                 changeColor(item.color, function () {
                     changeImage(item.head);
-                    removeAllSelected(HeadList.findIndex(item => item === item.head) + 1);
+                    removeAllSelected(HeadList.findIndex(itema => itema === item.head) + 1);
                 });
             }
             clone.children[1].children[0].onchange = function three() {
