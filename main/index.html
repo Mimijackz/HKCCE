@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <head>
     <title> Hollow Knight Custom Character Editor </title>
+    <link rel="icon" type="image/png" href="../knightTextures/KnightLogo.png" id="pageIcon">
 </head>
 <div id="header">
     <input type="button" value="Home" class="titleButton" onclick="window.location.href = '..'" id="unchosen" />
@@ -305,6 +306,7 @@
     function changeImage(newImage) {
         HeadSelected = newImage;
         imageSelector.style.backgroundImage = "url(../knightTextures" + newImage + "/KnightLogo.png)";
+        document.querySelector("#pageIcon").href = "../knightTextures" + newImage + "/KnightLogo.png";
         myStorage.setItem("standardHead", newImage);
         combineImages("../knightTextures" + newImage + "/KnightPreview.png", "../knightTextures/KnightPreviewMask.png", true, function (data) {
             document.getElementById("testImage").src = data;
