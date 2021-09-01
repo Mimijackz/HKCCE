@@ -453,18 +453,19 @@
                     downloadIndex = index;
                     downloadLoop(downloadIndex, zip);
                 } else {
-                    doesFileExist("../knightTextures" + HeadSelected + "/README.txt", function two(status) {
-                        zip.file("HeadReadme.txt", status);
+                    doesFileExist("../knightTextures" + HeadSelected + "/README.txt", function (status2) {
+                        if (status2.ok)
+                            zip.file("HeadReadme.txt", status);
 
-                    }, true);
-                    zip.generateAsync({ type: "blob" }).then(function (blob) {
-                        saveAs(blob, "Custom Cloak");
-                        document.querySelector("#downloadingGIFParent").style.display = "none";
-                        document.querySelector("#downloadingGIF").style.display = "none";
-                        document.querySelector("#download").disabled = false;
-                        document.querySelector("#download").style.transform = "translateY(0px)";
-                        document.getElementById("saved").style.transform = "translateY(0px)";
+                        zip.generateAsync({ type: "blob" }).then(function (blob) {
+                            saveAs(blob, "Custom Cloak");
+                            document.querySelector("#downloadingGIFParent").style.display = "none";
+                            document.querySelector("#downloadingGIF").style.display = "none";
+                            document.querySelector("#download").disabled = false;
+                            document.querySelector("#download").style.transform = "translateY(0px)";
+                            document.getElementById("saved").style.transform = "translateY(0px)";
                     });
+                    }, true);
                 }
             });
         }, false);
