@@ -441,7 +441,7 @@
     }
     function downloadLoop(index, zip) {
         doesFileExist("../knightTextures" + HeadSelected + "/" + downloadFiles[index] + ".png", function one(status) {
-            if (!status.ok) console.clear();
+            //if (!status.ok) console.clear();
             combineImages("../knightTextures" + (status.ok ? HeadSelected : "") + "/" + downloadFiles[index] + ".png", "../knightTextures/" + downloadFiles[index] + "Mask.png", false, function (data) {
                 var imageContent = data;
                 zip.file(downloadFiles[index] + ".png", imageContent);
@@ -458,6 +458,8 @@
                         {
                             zip.file("HeadReadme.txt", status2);
                             console.log(status2);
+                        }else {
+                            console.log("../knightTextures" + HeadSelected + "/README.txt"); 
                         }
 
                         zip.generateAsync({ type: "blob" }).then(function (blob) {
