@@ -461,6 +461,7 @@
                             //console.log("../knightTextures" + HeadSelected + "/README.txt");
                             //console.log(status2);
                         }
+                        zip.file("README.txt", "This skin was made using HKCCE, a custom skin editor /n mimijackz.github.io/HKCCE /n please don't remove this file, when redistributing /n if you want to find the skin readme for the heads, then look in the HeadReadme.txt file");
 
                         zip.generateAsync({ type: "blob" }).then(function (blob) {
                             saveAs(blob, "Custom Cloak");
