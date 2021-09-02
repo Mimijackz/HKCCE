@@ -454,13 +454,12 @@
                     downloadLoop(downloadIndex, zip);
                 } else {
                     doesFileExist("../knightTextures" + HeadSelected + "/README.txt", function (status2) {
-                        if (status2.ok) 
+                        if (status2 != "") 
                         {
                             zip.file("HeadReadme.txt", status2);
-                            console.log(status2);
                         }else {
                             //console.log("../knightTextures" + HeadSelected + "/README.txt");
-                            console.log(status2);
+                            //console.log(status2);
                         }
 
                         zip.generateAsync({ type: "blob" }).then(function (blob) {
